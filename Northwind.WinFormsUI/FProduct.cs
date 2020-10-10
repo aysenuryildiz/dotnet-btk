@@ -102,36 +102,45 @@ namespace Northwind.WinFormsUI
 
         private void AddProduct()
         {
-            if (isUpdated)
+            try
             {
-                _productService.Update(new Product
+                if (isUpdated)
                 {
+                    _productService.Update(new Product
+                    {
 
-                    ProductId = Convert.ToInt32(dgwProduct.CurrentRow.Cells[0].Value),
-                    CategoryId = Convert.ToInt32(cbxCategoryId.SelectedValue),
-                    ProductName = txtProductName.Text,
-                    QuantityPerUnit = txtQuantityPerUnit.Text,
-                    UnitPrice = Convert.ToDecimal(txtUnitPrice.Text),
-                    UnitsInStock = Convert.ToInt16(txtUnitInStock.Text)
-                });
-                MessageBox.Show("Product Updated. ");
-                ListProduct();
-            }
-            else
-            {
-                _productService.Add(new Product
+                        ProductId = Convert.ToInt32(dgwProduct.CurrentRow.Cells[0].Value),
+                        CategoryId = Convert.ToInt32(cbxCategoryId.SelectedValue),
+                        ProductName = txtProductName.Text,
+                        QuantityPerUnit = txtQuantityPerUnit.Text,
+                        UnitPrice = Convert.ToDecimal(txtUnitPrice.Text),
+                        UnitsInStock = Convert.ToInt16(txtUnitInStock.Text)
+                    });
+                    MessageBox.Show("Product Updated. ");
+                    ListProduct();
+                }
+                else
                 {
-                    CategoryId = Convert.ToInt32(cbxCategoryId.SelectedValue),
-                    ProductName = txtProductName.Text,
-                    QuantityPerUnit = txtQuantityPerUnit.Text,
-                    UnitPrice = Convert.ToDecimal(txtUnitPrice.Text),
-                    UnitsInStock = Convert.ToInt16(txtUnitInStock.Text)
-                });
-                MessageBox.Show("Product Added. ");
-                ListProduct();
+                    _productService.Add(new Product
+                    {
+                        CategoryId = Convert.ToInt32(cbxCategoryId.SelectedValue),
+                        ProductName = txtProductName.Text,
+                        QuantityPerUnit = txtQuantityPerUnit.Text,
+                        UnitPrice = Convert.ToDecimal(txtUnitPrice.Text),
+                        UnitsInStock = Convert.ToInt16(txtUnitInStock.Text)
+                    });
+                    MessageBox.Show("Product Added. ");
+                    ListProduct();
+                }
+                isUpdated = false;
+                ClearText();
             }
-            isUpdated = false;
-            ClearText();
+            catch (Exception)
+            {
+
+                throw;
+            }
+        
         }
 
         private void dgwProduct_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
